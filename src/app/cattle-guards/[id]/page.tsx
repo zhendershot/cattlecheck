@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useSession } from 'next-auth/react'
 import { useParams } from 'next/navigation'
 import dynamic from 'next/dynamic'
@@ -69,6 +69,16 @@ interface Edit {
   }
 }
 
+interface RatingData {
+  rating: number
+  comment: string
+  smoothness: number
+  scenicView: number
+  upkeep: number
+  accessibility: number
+  coolnessFactor: number
+}
+
 export default function CattleGuardDetailPage() {
   const params = useParams()
   const { data: session } = useSession()
@@ -78,13 +88,7 @@ export default function CattleGuardDetailPage() {
   // const [showEditForm, setShowEditForm] = useState(false)
   const [activeTab, setActiveTab] = useState<'reviews' | 'photos' | 'history'>('reviews')
 
-  useEffect(() => {
-    if (params.id) {
-      fetchCattleGuard()
-    }
-  }, [params.id, fetchCattleGuard])
-
-  const fetchCattleGuard = async () => {
+  const fetchCattleGuard = useCallback(async () => {
     try {
       const response = await fetch(`/api/cattle-guards/${params.id}`)
       if (response.ok) {
@@ -96,7 +100,13 @@ export default function CattleGuardDetailPage() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [params.id])
+
+  useEffect(() => {
+    if (params.id) {
+      fetchCattleGuard()
+    }
+  }, [fetchCattleGuard, params.id])
 
   const handleRatingSubmit = async (ratingData: RatingData) => {
     try {
@@ -270,7 +280,7 @@ export default function CattleGuardDetailPage() {
                 ].map(tab => (
                   <button
                     key={tab.id}
-                    onClick={() => setActiveTab(tab.id as any)}
+                    onClick={() => setActiveTab(tab.id as 'reviews' | 'photos' | 'history')}
                     className={`px-6 py-4 text-sm font-medium border-b-2 transition-colors ${
                       activeTab === tab.id
                         ? 'border-blue-500 text-blue-600'

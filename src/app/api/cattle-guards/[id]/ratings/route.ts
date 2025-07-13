@@ -5,8 +5,9 @@ import { prisma } from '@/lib/prisma'
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params
   try {
     const session = await getServerSession(authOptions)
     
@@ -47,7 +48,7 @@ export async function POST(
 
     // Check if cattle guard exists
     const cattleGuard = await prisma.cattleGuard.findUnique({
-      where: { id: params.id }
+      where: { id }
     })
 
     if (!cattleGuard) {
@@ -64,7 +65,7 @@ export async function POST(
         where: {
           userId_cattleGuardId: {
             userId: session.user.id,
-            cattleGuardId: params.id
+            cattleGuardId: id
           }
         },
         update: {
@@ -85,13 +86,13 @@ export async function POST(
           accessibility,
           coolnessFactor,
           userId: session.user.id,
-          cattleGuardId: params.id,
+          cattleGuardId: id,
         },
       })
 
       // Recalculate average rating and total count
       const allRatings = await tx.rating.findMany({
-        where: { cattleGuardId: params.id },
+        where: { cattleGuardId: id },
         select: { rating: true }
       })
 
@@ -102,7 +103,7 @@ export async function POST(
 
       // Update cattle guard with new aggregates
       await tx.cattleGuard.update({
-        where: { id: params.id },
+        where: { id },
         data: {
           averageRating,
           totalRatings,

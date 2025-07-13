@@ -73,7 +73,7 @@ export function RatingForm({ onSubmit, onCancel }: RatingFormProps) {
       return
     }
 
-    const hasAllCriteria = RATING_CRITERIA.every(criteria => formData[criteria.key] > 0)
+    const hasAllCriteria = RATING_CRITERIA.every(criteria => (formData[criteria.key] as number) > 0)
     if (!hasAllCriteria) {
       alert('Please rate all the awesome criteria!')
       return
@@ -126,7 +126,7 @@ export function RatingForm({ onSubmit, onCancel }: RatingFormProps) {
             ⭐ Overall Cattle Guard Awesomeness
           </label>
           <p className="text-sm text-gray-600 mb-3">
-            What's your gut feeling? Rate this bad boy on the scale of cattle guard excellence!
+            What&apos;s your gut feeling? Rate this bad boy on the scale of cattle guard excellence!
           </p>
           {renderStars(
             formData.rating,

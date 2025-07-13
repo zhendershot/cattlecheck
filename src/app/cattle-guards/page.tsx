@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { Navbar } from '@/components/Navbar'
 import { Star, MapPin, Calendar, Search, Filter } from 'lucide-react'
@@ -22,19 +22,11 @@ export default function CattleGuardsPage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [sortBy, setSortBy] = useState<'rating' | 'newest' | 'name'>('rating')
 
-  useEffect(() => {
-    fetchCattleGuards()
-  }, [])
-
-  useEffect(() => {
-    filterAndSortGuards()
-  }, [cattleGuards, searchTerm, sortBy, filterAndSortGuards])
-
   const fetchCattleGuards = async () => {
     try {
       const response = await fetch('/api/cattle-guards')
       if (response.ok) {
-        const data: CattleGuard[] = await response.json()
+        const data = await response.json() as CattleGuard[]
         setCattleGuards(data)
       }
     } catch (error) {
@@ -44,7 +36,7 @@ export default function CattleGuardsPage() {
     }
   }
 
-  const filterAndSortGuards = () => {
+  const filterAndSortGuards = useCallback(() => {
     const filtered = cattleGuards.filter(guard =>
       guard.name.toLowerCase().includes(searchTerm.toLowerCase())
     )
@@ -62,7 +54,15 @@ export default function CattleGuardsPage() {
     }
 
     setFilteredGuards(filtered)
-  }
+  }, [cattleGuards, searchTerm, sortBy])
+
+  useEffect(() => {
+    fetchCattleGuards()
+  }, [])
+
+  useEffect(() => {
+    filterAndSortGuards()
+  }, [filterAndSortGuards])
 
   const getRatingColor = (rating: number) => {
     if (rating >= 8) return 'text-green-600'
@@ -132,7 +132,7 @@ export default function CattleGuardsPage() {
                 <Filter className="w-5 h-5 text-gray-400" />
                 <select
                   value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as any)}
+                  onChange={(e) => setSortBy(e.target.value as 'rating' | 'newest' | 'name')}
                   className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
                   <option value="rating">Highest Rated</option>
