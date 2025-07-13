@@ -180,7 +180,7 @@ export default function CattleGuardDetailPage() {
               </div>
             </div>
             
-            <div className="mt-4 md:mt-0 flex gap-3">
+            <div className="mt-4 md:mt-0 flex flex-col sm:flex-row gap-3">
               {session && (
                 <>
                   <button
@@ -272,22 +272,23 @@ export default function CattleGuardDetailPage() {
         <div className="mt-8">
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
             <div className="border-b border-gray-200">
-              <nav className="flex">
+              <nav className="flex flex-wrap sm:flex-nowrap">
                 {[
-                  { id: 'reviews', label: '💬 Reviews', count: cattleGuard.ratings.length },
-                  { id: 'photos', label: '📸 Photos', count: cattleGuard.images.length },
-                  { id: 'history', label: '📜 Edit History', count: cattleGuard.edits.length },
+                  { id: 'reviews', label: '💬 Reviews', shortLabel: '💬', count: cattleGuard.ratings.length },
+                  { id: 'photos', label: '📸 Photos', shortLabel: '📸', count: cattleGuard.images.length },
+                  { id: 'history', label: '📜 Edit History', shortLabel: '📜', count: cattleGuard.edits.length },
                 ].map(tab => (
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id as 'reviews' | 'photos' | 'history')}
-                    className={`px-6 py-4 text-sm font-medium border-b-2 transition-colors ${
+                    className={`flex-1 px-3 sm:px-6 py-4 text-sm font-medium border-b-2 transition-colors ${
                       activeTab === tab.id
                         ? 'border-blue-500 text-blue-600'
                         : 'border-transparent text-gray-500 hover:text-gray-700'
                     }`}
                   >
-                    {tab.label} ({tab.count})
+                    <span className="sm:hidden">{tab.shortLabel} ({tab.count})</span>
+                    <span className="hidden sm:inline">{tab.label} ({tab.count})</span>
                   </button>
                 ))}
               </nav>
@@ -345,7 +346,7 @@ export default function CattleGuardDetailPage() {
               {activeTab === 'photos' && (
                 <div>
                   {cattleGuard.images.length > 0 ? (
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                       {cattleGuard.images.map(image => (
                         <div key={image.id} className="aspect-square relative">
                           <Image
@@ -404,7 +405,7 @@ export default function CattleGuardDetailPage() {
       {/* Rating Form Modal */}
       {showRatingForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto">
-          <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto mx-4">
             <RatingForm
               cattleGuardId={cattleGuard.id}
               onSubmit={handleRatingSubmit}

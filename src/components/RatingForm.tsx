@@ -90,11 +90,11 @@ export function RatingForm({ onSubmit, onCancel }: RatingFormProps) {
     hoverValue: number = 0
   ) => {
     return (
-      <div className="flex gap-1">
+      <div className="flex gap-1 flex-wrap justify-center sm:justify-start">
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((star) => (
           <Star
             key={star}
-            className={`w-6 h-6 cursor-pointer transition-colors ${
+            className={`w-5 h-5 sm:w-6 sm:h-6 cursor-pointer transition-colors ${
               star <= (hoverValue || value)
                 ? 'fill-yellow-400 text-yellow-400'
                 : 'text-gray-300 hover:text-yellow-300'
@@ -109,9 +109,9 @@ export function RatingForm({ onSubmit, onCancel }: RatingFormProps) {
   }
 
   return (
-    <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6">
+    <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-4 sm:p-6">
       <div className="text-center mb-6">
-        <h2 className="text-3xl font-bold text-gray-800 mb-2">
+        <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">
           🐄 Rate This Magnificent Cattle Guard! 🐄
         </h2>
         <p className="text-gray-600">
@@ -180,7 +180,7 @@ export function RatingForm({ onSubmit, onCancel }: RatingFormProps) {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-3 pt-4">
+        <div className="flex flex-col sm:flex-row gap-3 pt-4">
           <button
             type="submit"
             className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition-all transform hover:scale-105"

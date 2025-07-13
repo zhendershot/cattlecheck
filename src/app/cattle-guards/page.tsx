@@ -115,8 +115,8 @@ export default function CattleGuardsPage() {
           </p>
 
           {/* Search and Filter */}
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <div className="flex flex-col md:flex-row gap-4">
+          <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg">
+            <div className="flex flex-col sm:flex-row gap-4">
               <div className="flex-1 relative">
                 <Search className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
                 <input
@@ -145,7 +145,7 @@ export default function CattleGuardsPage() {
         </div>
 
         {/* Statistics */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-8">
           <div className="bg-white p-6 rounded-lg shadow-lg text-center">
             <div className="text-3xl font-bold text-blue-600">{cattleGuards.length}</div>
             <div className="text-gray-600">Total Guards</div>

@@ -112,7 +112,7 @@ export default function MapPage() {
           
           <div className="p-4">
             {isLoading ? (
-              <div className="w-full h-96 bg-gray-200 animate-pulse rounded-lg flex items-center justify-center">
+              <div className="w-full h-64 sm:h-80 md:h-96 bg-gray-200 animate-pulse rounded-lg flex items-center justify-center">
                 <p className="text-gray-500">Loading epic cattle guards...</p>
               </div>
             ) : (
@@ -127,7 +127,7 @@ export default function MapPage() {
         </div>
 
         {/* Statistics */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
           <div className="bg-white p-6 rounded-lg shadow-lg text-center">
             <div className="text-3xl font-bold text-green-600">{cattleGuards.length}</div>
             <div className="text-gray-600">Total Cattle Guards</div>
@@ -153,7 +153,7 @@ export default function MapPage() {
       {/* Add Cattle Guard Modal */}
       {showAddForm && newGuardLocation && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto mx-4">
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-xl font-bold text-gray-900">

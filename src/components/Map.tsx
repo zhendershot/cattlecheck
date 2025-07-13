@@ -62,14 +62,14 @@ export function Map({ cattleGuards, onMapClick, center = [39.8283, -98.5795], zo
   }, [])
 
   if (!mounted) {
-    return <div className="w-full h-96 bg-gray-200 animate-pulse rounded-lg" />
+    return <div className="w-full h-64 sm:h-80 md:h-96 bg-gray-200 animate-pulse rounded-lg" />
   }
 
   return (
     <MapContainer
       center={center}
       zoom={zoom}
-      className="w-full h-96 rounded-lg z-10"
+      className="w-full h-64 sm:h-80 md:h-96 rounded-lg z-10"
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
